@@ -1,0 +1,16 @@
+reset(44100)
+hifreq = $1
+lowfreq = $2
+
+amp = 15000
+ampenv = maketable("window", 1000, "hanning")
+
+start = 0
+dur = 0.05
+for (i = 0; i < 20; i = i+1) {
+	freq = irand(hifreq, lowfreq)
+	WAVETABLE(start, dur, amp*ampenv, freq)
+	start = start + (dur/2)
+}
+
+MAXBANG(start)

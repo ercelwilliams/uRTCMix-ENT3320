@@ -13,8 +13,6 @@ public class Beep2 : MonoBehaviour
     {
         RTcmix.initRTcmix(objno);
 
-        RTcmix.SendScore("WAVETABLE(0, 7.8, 20000, 8.05, 0.5)", objno);
-
         did_start = true;
         
     }
@@ -24,7 +22,7 @@ public class Beep2 : MonoBehaviour
     {
     
     }
-     void OnAudioFilterRead(float[] data, int channels){
+    private void OnAudioFilterRead(float[] data, int channels){
             if (!did_start) return;
 
             RTcmix.runRTcmix(data, objno, 0);
