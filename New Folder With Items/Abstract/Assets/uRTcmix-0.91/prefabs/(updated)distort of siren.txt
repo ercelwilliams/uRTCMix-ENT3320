@@ -1,0 +1,28 @@
+rtsetparams(44100, 2)
+load("DISTORT")
+load("MOOGVCF")
+load("REVERBIT")
+
+
+   //rtinput("/Users/bezmusik/Desktop/ENTFOLDER/test.samples/SIREN.wav")
+
+   // distort output
+   type = 1   // 1: soft clip, 2: tube
+   amp = 1.0
+   ampenv = maketable("line", 1000, 0,200, 35,1, 45,1, 54,0)
+   gain = 30.0
+   cf = 350 // lowpass filter
+   DISTORT(0, 0.2, 8.0, amp*ampenv,  type , gain, cf, .5, 0)
+   DISTORT(0.7, 0, 8.0, amp*ampenv, type, gain, cf, 0, 0)
+
+bus_config("MOOGVCF",  "aux 0-1 in", "out 0-1")
+bus_config("REVERBIT", "aux 2-3 in","out 0-1" )
+bus_config("DISTORT", "aux 4-5 in","out 0-1" )
+
+
+freq = maketable("line", "nonorm", 2000, 0,1000, 100,1500, 300,400, 400,2000)
+
+MOOGVCF(outsk=0.0, insk=0.0, dur=9999, amp=1.0, inputchan=0.0, pan=0.5, bypass=0, freq, filtresontable=0.45)
+
+// creates  reverb 
+REVERBIT(outskip=0.0, inskip=0.0, dur=9999, amp=1.0, revtime=6.5, revpct=0.5, rtchandel=0.19, cutoff=5000.0)

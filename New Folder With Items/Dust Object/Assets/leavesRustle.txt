@@ -1,0 +1,31 @@
+rtsetparams(48000, 2)
+load("STEREO")
+load("MOOGVCF")
+load("REVERBIT")
+
+// input sound file
+//rtinput("/Users/ercelwilliams/Desktop/SPRING\ 2022/uRTCMix-ENT3320/Sounds/leavesRustle.wav")
+// increase input sound & duration
+STEREO(outsk=0, insk=0, dur=9999, amp=15, pan=0.5)
+
+// using bus_config to connect sound file -> MOOGVCF -> REVERBIT -> output
+bus_config("MOOGVCF", "in 0-1", "aux 0-1 out")
+bus_config("REVERBIT", "aux 0-1 in", "out 0-1")
+
+
+//freq = maketable("line", "nonorm", 1000, 0,500, 25,200, 50,500, 100,1100)
+freq = maketable("line", "nonorm", 2000, 0,1000, 100,1500, 300,1800, 400,2000)
+
+// output start time, input start time, duration, amplitude, input channel, pan (0-1 stereo; 0.5 middle), bypass usually 0, filter cutoff frequency, filter resonance
+// this filter gives lowpass cutoff frequency and the filtresontable determines it
+
+MOOGVCF(outsk=0.0, insk=0.0, dur=9999, amp=1.0, inputchan=0.0, pan=1, bypass=0, freq, filtresontable=0.9)
+
+// creates a reverb in my sound
+REVERBIT(outskip=0.0, inskip=0.0, dur=9999, amp=1.0, revtime=10, revpct=0.2, rtchandel=0.02, cutoff=5000.0)
+
+
+
+
+
+

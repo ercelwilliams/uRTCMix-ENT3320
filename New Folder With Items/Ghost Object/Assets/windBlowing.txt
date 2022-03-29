@@ -1,0 +1,16 @@
+reset 48000
+load("STEREO")
+load("DISTORT")
+// input sound file
+//rtinput("/Users/ercelwilliams/Desktop/SPRING\ 2022/uRTCMix-ENT3320/Sounds/softWindBlowing.wav")
+bus_config("STEREO", "in 0-1", "aux 0-1 out")
+bus_config("DISTORT", "aux 0-1 in", "out 0-1")
+// increase input sound & duration
+STEREO(outsk=0, insk=1, dur=9999, amp=5, pan=0.5)
+// maketable is a table that handles stored scorefiles variable and can control multiple aspects of an instrument
+//"Window" creates a function curve, size, "hanning" - analyze and process filter to improve the quality & make it smoother
+ampenv = maketable("window", 1000, "hanning")
+// DISTORT - applies distortion and lowpass filter (2000)
+// output, input, duration, amp, type( 1 is soft), gain, cutoff freq, input channels
+DISTORT(0.5, 0, 8.0, 2*ampenv, 1, 4, 50, 0, 1)
+DISTORT(0, 0, 5.0, 2*ampenv, 1, 3, 50, 0, 0)
